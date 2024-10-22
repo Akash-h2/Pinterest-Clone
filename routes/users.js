@@ -5,10 +5,9 @@ const plm = require("passport-local-mongoose");
 // Connect to MongoDB Atlas
 
 const mongoAtlasUri = process.env.MONGODB_URI;
-mongoose.connect(mongoAtlasUri, { 
-  useNewUrlParser: true, 
-  useUnifiedTopology: true 
-});
+mongoose.connect(mongoAtlasUri)
+.then(() => console.log("MongoDB connected successfully"))
+.catch((err) => console.error("MongoDB connection error:", err));
 
 // Define the schema
 const userSchema = new mongoose.Schema({
