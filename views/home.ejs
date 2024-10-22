@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/home.css">
+
+    <title>Pinterest Clone</title>
+
+    <style>
+      /* Slide-in animation from bottom */
+      @keyframes slideInFromBottom {
+        0% {
+          transform: translateY(100%);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      /* Apply the animation to the image */
+      .slide-in {
+        animation: slideInFromBottom 1s ease-in-out; /* Adjust the duration as needed */
+      }
+
+      /* Ensure the image is initially visible */
+      .image-box img {
+        display: block;
+      }
+    </style>
+
+  </head>
+  <body>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+      <div class="container-fluid">
+          <a class="navbar-brand d-flex align-items-center" href="/">
+              <img src="https://i.pinimg.com/originals/d3/d1/75/d3d175e560ae133f1ed5cd4ec173751a.png" alt="pin logo" class="img1" style="width: 40px; height: 40px; margin-right: 8px;" />
+              Pinterest
+          </a>
+  
+          <!-- Toggler button for smaller screens -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <!-- Navigation links container with collapse class for responsiveness -->
+          <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ms-auto d-flex align-items-center">
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="/register">Register</a>
+                  </li>
+                  <li class="nav-item bg-danger">
+                      <a class="nav-link text-white" href="/login">Login</a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </nav>
+  
+  
+
+    <!-- Center Text Container -->
+    <div class="center-text-container" id="center-text">
+      Welcome to Pinterest
+    </div>
+
+    <!-- Image Boxes Section -->
+    <div class="container">
+        <div class="image-box box-1">
+          <img src="/images/uploads/bird.jpg" alt="Image 1">
+        </div>
+        <div class="image-box box-2">
+          <img src="/images/uploads/bird2.jpg" alt="Image 2">
+        </div>
+        <div class="image-box box-3">
+          <img src="/images/uploads/lion.jpg" alt="Image 3">
+        </div>
+        <div class="image-box box-4">
+          <img src="/images/uploads/panda.jpg" alt="Image 4">
+        </div>
+        <div class="image-box box-5">
+          <img src="/images/uploads/lion.jpg" alt="Image 5">
+        </div>
+    </div>
+  
+    <script>
+      // Array of image sources for each box
+      const imageSources = [
+        ["/images/uploads/bird.jpg", "/images/uploads/home1.jpg", "/images/uploads/frame1.jpg", "/images/uploads/food1.jpg"],
+        ["/images/uploads/bird2.jpg", "/images/uploads/home2.jpg", "/images/uploads/frame2.jpg", "/images/uploads/food2.jpg"],
+        ["/images/uploads/lion.jpg",  "/images/uploads/home3.jpg", "/images/uploads/frame3.jpg", "/images/uploads/food3.jpg"],
+        ["/images/uploads/panda.jpg", "/images/uploads/home4.jpg", "/images/uploads/frame4.jpg", "/images/uploads/food4.jpg"],
+        ["/images/uploads/lion.jpg",  "/images/uploads/home5.jpg", "/images/uploads/frame5.jpg", "/images/uploads/food5.jpg"]
+      ];
+    
+      let currentBoxIndex = 0; // Track the current image box index
+    
+      // Function to cycle images one after another with slide-in effect
+      function cycleImagesSequentially() {
+        const img = document.querySelectorAll('.image-box img')[currentBoxIndex];
+        const sources = imageSources[currentBoxIndex];
+        let currentSrc = img.getAttribute('src');
+        let currentIndex = sources.indexOf(currentSrc);
+        let nextIndex = (currentIndex + 1) % sources.length;
+    
+        // Apply slide-in effect by adding the class
+        img.classList.remove('slide-in'); // Reset the animation
+        img.style.opacity = 0; // Make the image invisible before changing source
+    
+        setTimeout(() => {
+          // Change to the next image source
+          img.setAttribute('src', sources[nextIndex]);
+          img.classList.add('slide-in'); // Add the slide-in class to trigger the animation
+          img.style.opacity = 1; // Show the image
+    
+          // Move to the next image box, or reset to the first box
+          currentBoxIndex = (currentBoxIndex + 1) % imageSources.length;
+        }, 500); // Delay for slide effect (700ms to match the CSS animation duration)
+      }
+    
+      // Array of text messages
+      const textMessages = ["Welcome to Pinterest", "Explore Your Interests", "Create Your Own Boards", "Discover New Ideas", "Join the Community"];
+      let textIndex = 0;
+    
+      // Function to cycle text
+      function cycleText() {
+        textIndex = (textIndex + 1) % textMessages.length;
+        document.getElementById('center-text').textContent = textMessages[textIndex];
+      }
+    
+      // Set intervals for sequential image and text cycling
+      setInterval(cycleImagesSequentially, 700); // Change images one after another every 1 second
+      setInterval(cycleText, 3000);   // Change text every 3 seconds
+    
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
+</html>

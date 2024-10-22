@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/stylesheets/show.css">
+  <title>Saved posts</title>
+</head>
+<body>
+  <%- include('partials/navbar') %>
+
+  <div class="container mt-4 ">
+    <h2>Saved Posts</h2>
+    <div class="row">
+      <% savedPosts.forEach(post => { %>
+        <div class="col-md-6 mb-12">
+          <div class="card" data-id="<%= post._id %>">
+            <img src="/images/uploads/<%= post.image %>" class="card-img-top" alt="<%= post.title %>" data-bs-toggle="modal" data-bs-target="#viewImageModal" data-image="/images/uploads/<%= post.image %>" data-title="<%= post.title %>">
+            <div class="card-body">
+              <h5 class="card-title"><%= post.title %></h5>
+              <p class="card-text"><%= post.description %></p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewImageModal" data-image="/images/uploads/<%= post.image %>" data-title="<%= post.title %>">
+                <i class="bi bi-eye"></i> View
+              </button>
+              <button class="btn btn-danger" onclick="deletePost('<%= post._id %>')">
+                <i class="bi bi-trash"></i> Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <!-- View Image Modal -->
+  <div class="modal fade" id="viewImageModal" tabindex="-1" aria-labelledby="viewImageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="viewImageModalLabel">Image View</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <img id="modalImage" src="" class="img-fluid" alt="" style="max-width: 100%;">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var viewImageModal = document.getElementById('viewImageModal');
+      viewImageModal.addEventListener('show.bs.modal', function(event) {
+        var button = event.relatedTarget; // Button that triggered the modal
+        var imageSrc = button.getAttribute('data-image'); // Extract info from data-* attributes
+        var imageTitle = button.getAttribute('data-title'); // Extract info from data-* attributes
+
+        // Update the modal's content.
+        var modalImage = viewImageModal.querySelector('#modalImage');
+        modalImage.src = imageSrc;
+        modalImage.alt = imageTitle;
+      });
+    });
+
+    function deletePost(postId) {
+      fetch(`/delete-saved/${postId}`, { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            // Remove the post card from the page
+            document.querySelector(`.card[data-id="${postId}"]`).remove();
+          } else {
+            alert('Error deleting post');
+          }
+        });
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
