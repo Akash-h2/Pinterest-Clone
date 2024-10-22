@@ -26,7 +26,7 @@ app.use(session({
     mongoUrl: process.env.MONGODB_URI,  // Replace with your MongoDB connection string
   }),
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24 // Optional: Set cookie expiry to 1 day
+    maxAge: 1000 * 60 * 60 * 24 * 7 // Optional: Set cookie expiry to 1 day
   }
 }));
 
