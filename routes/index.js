@@ -133,6 +133,7 @@ router.post('/delete-saved/:id', isLoggedIn, async function(req, res) {
   }
 });
 
+
 // Delete Post Route
 router.get('/delete/:id', isLoggedIn, async function(req, res) {
   try {
@@ -142,6 +143,7 @@ router.get('/delete/:id', isLoggedIn, async function(req, res) {
     res.status(500).send('Error deleting post');
   }
 });
+
 
 // Add page
 router.get('/add', isLoggedIn, async function(req, res) {
