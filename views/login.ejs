@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Pinterest</title>
+    <link rel="icon" href="https://artandarchives.wordpress.com/wp-content/uploads/2013/07/pinterest_badge_red.png" type="image/x-icon">
   <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 <body>
@@ -33,6 +34,44 @@
     </div>
   </div>
   
+  <script>
+    // Disable right-click
+document.addEventListener('contextmenu', function (e) {
+  e.preventDefault();
+}, false);
 
+// Disable F12 (Inspect Element) and Ctrl+Shift+I/J/U
+document.addEventListener('keydown', function (e) {
+  // Disable F12
+  if (e.keyCode === 123) {
+      e.preventDefault();
+  }
+  // Disable Ctrl+Shift+I (Inspect)
+  if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+      e.preventDefault();
+  }
+  // Disable Ctrl+Shift+J (Console)
+  if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+      e.preventDefault();
+  }
+  // Disable Ctrl+U (View Page Source)
+  if (e.ctrlKey && e.keyCode === 85) {
+      e.preventDefault();
+  }
+}, false);
+
+// Optional: Disable Ctrl+S (Save As) and Ctrl+P (Print)
+document.addEventListener('keydown', function (e) {
+  // Disable Ctrl+S
+  if (e.ctrlKey && e.keyCode === 83) {
+      e.preventDefault();
+  }
+  // Disable Ctrl+P
+  if (e.ctrlKey && e.keyCode === 80) {
+      e.preventDefault();
+  }
+}, false);
+
+   </script>
 </body>
 </html>

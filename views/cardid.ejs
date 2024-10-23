@@ -6,22 +6,24 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/stylesheets/show.css">
   <title><%= post.title %></title>
+  
+    <link rel="icon" href="https://artandarchives.wordpress.com/wp-content/uploads/2013/07/pinterest_badge_red.png" type="image/x-icon">
 </head>
 <body>
   <%- include('partials/navbar') %>
 
-  <div class="container mt-4">
-    <div class="d-flex flex-column flex-lg-row align-items-start">
+  <div class=" container mb-12 mt-4 ">
+    <div class="d-flex flex-column flex-lg-row align-items-center">
       <!-- Image on the left -->
       <div class="flex-shrink-0 mb-3 mb-lg-0">
-        <img src="/images/uploads/<%= post.image %>" class="img-fluid" alt="<%= post.title %>" style="max-width: 500px;">
+        <img src="<%= post.image %>" class="img-fluid " alt="<%= post.title %>" style="max-width: 500px;">
       </div>
       <!-- Details on the right -->
       <div class="flex-grow-1 ms-lg-4">
         <h5 class="card-title"><%= post.title %></h5>
         <p class="card-text"><%= post.description %></p>
 
-        <!-- Buttons -->
+        <!-- Buttons for editing and deleting, visible by default -->
         <div class="d-flex flex-wrap">
           <button class="btn btn-danger me-2 mb-2" data-bs-toggle="modal" data-bs-target="#deleteModal">
             <i class="bi bi-trash"></i> Delete
@@ -43,7 +45,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          Are you sure you want to delete this post? This action cannot be undone.
+          <p>Are you sure you want to delete this post? This action cannot be undone.</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -55,7 +57,7 @@
 
   <!-- Edit Post Modal -->
   <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="editModalLabel">Edit Post</h5>
@@ -65,17 +67,20 @@
           <form id="editForm">
             <div class="mb-3">
               <label for="editTitle" class="form-label">Title</label>
-              <input type="text" class="form-control" id="editTitle" value="<%= post.title %>">
+              <input type="text" class="form-control" id="editTitle" value="<%= post.title %>" required>
             </div>
             <div class="mb-3">
               <label for="editDescription" class="form-label">Description</label>
-              <textarea class="form-control" id="editDescription" rows="3"><%= post.description %></textarea>
+              <textarea class="form-control" id="editDescription" rows="3" required><%= post.description %></textarea>
             </div>
             <div class="mb-3">
               <label for="editImage" class="form-label">Image URL</label>
-              <input type="text" class="form-control" id="editImage" value="<%= post.image %>">
+              <input type="url" class="form-control" id="editImage" value="<%= post.image %>" required>
             </div>
-            <button type="button" class="btn btn-primary" onclick="updatePost('<%= post._id %>')">Save Changes</button>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" onclick="updatePost('<%= post._id %>')">Save Changes</button>
+            </div>
           </form>
         </div>
       </div>
@@ -85,7 +90,7 @@
   <!-- JavaScript -->
   <script>
     function confirmDelete(postId) {
-      fetch(`/delete/${postId}`, { method: 'GET' })
+      fetch(`/delete/${postId}`, { method: 'DELETE' })
         .then(response => {
           if (response.ok) {
             window.location.href = '/profile';
@@ -117,7 +122,45 @@
       });
     }
   </script>
+  <script>
+    // Disable right-click
+document.addEventListener('contextmenu', function (e) {
+  e.preventDefault();
+}, false);
 
+// Disable F12 (Inspect Element) and Ctrl+Shift+I/J/U
+document.addEventListener('keydown', function (e) {
+  // Disable F12
+  if (e.keyCode === 123) {
+      e.preventDefault();
+  }
+  // Disable Ctrl+Shift+I (Inspect)
+  if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+      e.preventDefault();
+  }
+  // Disable Ctrl+Shift+J (Console)
+  if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+      e.preventDefault();
+  }
+  // Disable Ctrl+U (View Page Source)
+  if (e.ctrlKey && e.keyCode === 85) {
+      e.preventDefault();
+  }
+}, false);
+
+// Optional: Disable Ctrl+S (Save As) and Ctrl+P (Print)
+document.addEventListener('keydown', function (e) {
+  // Disable Ctrl+S
+  if (e.ctrlKey && e.keyCode === 83) {
+      e.preventDefault();
+  }
+  // Disable Ctrl+P
+  if (e.ctrlKey && e.keyCode === 80) {
+      e.preventDefault();
+  }
+}, false);
+
+   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
